@@ -65,6 +65,27 @@
             position: relative;
             box-shadow: 0 30px 60px -15px rgb(0 0 0 / 0.5);
         }
+
+        /* Custom PayPal Button Styles */
+        .pp-BFFP8XUBR8GZ6 {
+            text-align: center;
+            border: none;
+            border-radius: 0.25rem;
+            min-width: 11.625rem;
+            padding: 0 2rem;
+            height: 2.625rem;
+            font-weight: bold;
+            background-color: #FFD140;
+            color: #000000;
+            font-family: "Helvetica Neue", Arial, sans-serif;
+            font-size: 1rem;
+            line-height: 1.25rem;
+            cursor: pointer;
+            transition: opacity 0.2s ease;
+        }
+        .pp-BFFP8XUBR8GZ6:hover {
+            opacity: 0.9;
+        }
     </style>
 </head>
 <body id="body-tag" class="antialiased">
@@ -180,16 +201,19 @@
     <main id="cart" class="page max-w-4xl mx-auto py-24 px-6">
         <div id="cart-items" class="space-y-6"></div>
         <div id="cart-summary" class="mt-10 pt-10 border-t"></div>
-        <div id="checkout-section" class="mt-10">
-            <h3 class="text-2xl font-light mb-4">Checkout</h3>
-            
-            <div id="paypal-button-container"></div>
-            
-            <div class="mt-8 pt-8 border-t border-gray-200 dark:border-gray-800">
-                <h4 class="text-lg font-light mb-4">Quick Pay / Specific Offer</h4>
-                <div id="paypal-container-BFFP8XUBR8GZ6"></div>
+        
+        <div id="checkout-section" class="mt-10" style="display: none;">
+            <h3 class="text-2xl font-light mb-6 text-center">Checkout</h3>
+            <div class="flex justify-center w-full">
+                <div>
+                    <form action="https://www.paypal.com/ncp/payment/BFFP8XUBR8GZ6" method="post" target="_blank" style="display:inline-grid;justify-items:center;align-content:start;gap:0.5rem;">
+                      <input class="pp-BFFP8XUBR8GZ6" type="submit" value="Buy Now" />
+                      <img src=https://www.paypalobjects.com/images/Debit_Credit_APM.svg alt="cards" />
+                      <section style="font-size: 0.75rem;"> Powered by <img src="https://www.paypalobjects.com/paypal-ui/logos/svg/paypal-wordmark-color.svg" alt="paypal" style="height:0.875rem;vertical-align:middle;"/></section>
+                    </form>
+                </div>
             </div>
-
+            <div id="paypal-button-container" class="mt-6"></div>
         </div>
     </main>
 
@@ -205,10 +229,8 @@
 
     <script src="https://www.paypal.com/sdk/js?client-id=AbVYkvOph4D0UpNlal1RHg8iy2gUFI2hCJpUaBVNJqBCq3HBOHoFdCO_z20neUJcrKBsjD1-VaUEuRBZ&currency=ZAR"></script>
 
-    <script src="https://www.paypal.com/sdk/js?client-id=BAAOkIpuu7DP4hfE0V44yaZqgEh2jFpXzLFjJ0MmuXFHwfO1_PMejUKn74Nri53_hv1FUk_vslsvOltag0&components=hosted-buttons&disable-funding=venmo&currency=USD" data-namespace="paypalHosted"></script>
-
     <script>
-        const products = [
+        const products = [ 
             { id: 1, name: 'Portable Car Hookah', price: 1360, originalPrice: 1850, category: 'Automotive', sales: 2100, image: 'https://www.ashishaonline.co.za/cdn/shop/products/109478526_3324191984298017_5697333573222117201_o_portable_shisha_2048x.jpg?v=1658918521', desc: 'Travel hookah designed for standard cup holders. Fits securely in most vehicle cup holders.', reviews: [] },
             { id: 2, name: 'Auto Soap Dispenser', price: 720, originalPrice: 950, category: 'Home', sales: 850, image: 'https://thefoschini.vtexassets.com/arquivos/ids/213899792-1200-1600?v=638901801086030000&width=1200&height=1600&aspect=true', desc: 'Touchless IR sensor dispenser. Experience hygienic handwashing.', reviews: [] },
             { id: 3, name: 'Dog Paw Cleaner', price: 560, category: 'Pets', sales: 100, image: 'https://www.makro.co.za/asset/rukmini/fccp/832/832/ng-fkpublic-ui-user-fbbe/pet-cleanser/x/w/x/10-box-1-131746-alanes-original-imahbc3ktpx4sfw5.jpeg?q=70', desc: 'Silicone brush for muddy paws. Keep your home clean easily.', reviews: [] },
@@ -366,6 +388,7 @@
         function renderCart() {
             const itemsDiv = document.getElementById('cart-items');
             const summaryDiv = document.getElementById('cart-summary');
+            const checkoutSection = document.getElementById('checkout-section');
             if (!itemsDiv || !summaryDiv) return;
 
             itemsDiv.innerHTML = cart.length ? cart.map(item => `
@@ -389,39 +412,11 @@
                 </div>
             `;
 
-            // Original dynamic cart checkout init
-            const container = document.getElementById('paypal-button-container');
-            if (container) {
-                container.innerHTML = '';
-                if (cart.length > 0) {
-                    paypal.Buttons({
-                        createOrder: function(data, actions) {
-                            return actions.order.create({
-                                purchase_units: [{
-                                    amount: {
-                                        value: total.toFixed(2),
-                                        currency_code: 'ZAR'
-                                    },
-                                    description: 'NEXUS Order'
-                                }]
-                            });
-                        },
-                        onApprove: function(data, actions) {
-                            return actions.order.capture().then(function(details) {
-                                alert('Transaction completed by ' + details.payer.name.given_name);
-                                console.log(details);
-                                cart = [];
-                                document.getElementById('cart-count').innerText = 0;
-                                renderCart();
-                                showPage('home');
-                            });
-                        },
-                        onError: function(err) {
-                            console.error(err);
-                            alert('Payment failed!');
-                        }
-                    }).render('#paypal-button-container');
-                }
+            // Display checkout section containing your Custom Form only if there are items in the cart
+            if (cart.length > 0) {
+                checkoutSection.style.display = 'block';
+            } else {
+                checkoutSection.style.display = 'none';
             }
         }
 
@@ -529,13 +524,6 @@
 
             // Show popup after load
             setTimeout(showEmailModal, 1800);
-
-            // NEW: Initialize Hosted Button checkout (renders on load)
-            if (typeof paypalHosted !== 'undefined') {
-                paypalHosted.HostedButtons({
-                    hostedButtonId: "BFFP8XUBR8GZ6",
-                }).render("#paypal-container-BFFP8XUBR8GZ6");
-            }
         });
     </script>
 </body>
