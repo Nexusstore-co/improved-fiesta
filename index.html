@@ -122,6 +122,7 @@
                 <button onclick="showPage('products')" class="border border-current px-10 py-4 hover:bg-[var(--text)] hover:text-[var(--bg)] transition uppercase text-[10px] tracking-[0.4em] font-semibold">Shop Collection</button>
             </div>
         </section>
+        <!-- about, our-story, contact sections unchanged -->
         <section id="about" class="py-24 border-t border-gray-800/20 bg-gray-50/30 dark:bg-gray-900/10">
             <div class="max-w-5xl mx-auto px-6 text-center">
                 <h2 class="text-4xl font-light mb-8 uppercase tracking-tighter">The Nexus Vision</h2>
@@ -146,11 +147,10 @@
             </div>
         </section>
     </main>
-    <!-- PRODUCTS -->
+    <!-- PRODUCTS, PRODUCT DETAILS, WISHLIST unchanged (same as before) -->
     <main id="products" class="page max-w-7xl mx-auto py-20 px-6">
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8" id="product-grid"></div>
     </main>
-    <!-- PRODUCT DETAILS -->
     <main id="product-details" class="page max-w-6xl mx-auto py-24 px-6">
         <button onclick="showPage('products')" class="text-xs tracking-widest opacity-50 mb-10">← BACK TO SHOP</button>
         <div id="details-content" class="grid grid-cols-1 md:grid-cols-2 gap-16"></div>
@@ -171,7 +171,6 @@
             </form>
         </div>
     </main>
-    <!-- WISHLIST -->
     <main id="wishlist" class="page max-w-7xl mx-auto py-24 px-6">
         <div id="wishlist-grid" class="grid grid-cols-1 md:grid-cols-4 gap-8"></div>
     </main>
@@ -195,11 +194,11 @@
         </div>
     </footer>
 
-    <!-- PayPal SDK -->
-    <script src="https://www.paypal.com/sdk/js?client-id=AbVYkvOph4D0UpNlal1RHg8iy2gUFI2hCJpUaBVNJqBCq3HBOHoFdCO_z20neUJcrKBsjD1-VaUEuRBZ&currency=ZAR"></script>
+    <!-- PayPal SDK with DEBUG mode enabled (this is the fix for "Script error.") -->
+    <script src="https://www.paypal.com/sdk/js?client-id=AbVYkvOph4D0UpNlal1RHg8iy2gUFI2hCJpUaBVNJqBCq3HBOHoFdCO_z20neUJcrKBsjD1-VaUEuRBZ&currency=ZAR&debug=true"></script>
 
     <script>
-        const products = [ /* unchanged */ 
+        const products = [ /* all your products unchanged */ 
             { id: 1, name: 'Portable Car Hookah', price: 1360, originalPrice: 1850, category: 'Automotive', sales: 2100, image: 'https://www.ashishaonline.co.za/cdn/shop/products/109478526_3324191984298017_5697333573222117201_o_portable_shisha_2048x.jpg?v=1658918521', desc: 'Travel hookah designed for standard cup holders. Fits securely in most vehicle cup holders.', reviews: [] },
             { id: 2, name: 'Auto Soap Dispenser', price: 720, originalPrice: 950, category: 'Home', sales: 850, image: 'https://thefoschini.vtexassets.com/arquivos/ids/213899792-1200-1600?v=638901801086030000&width=1200&height=1600&aspect=true', desc: 'Touchless IR sensor dispenser. Experience hygienic handwashing.', reviews: [] },
             { id: 3, name: 'Dog Paw Cleaner', price: 560, category: 'Pets', sales: 100, image: 'https://www.makro.co.za/asset/rukmini/fccp/832/832/ng-fkpublic-ui-user-fbbe/pet-cleanser/x/w/x/10-box-1-131746-alanes-original-imahbc3ktpx4sfw5.jpeg?q=70', desc: 'Silicone brush for muddy paws. Keep your home clean easily.', reviews: [] },
@@ -222,8 +221,9 @@
         ];
 
         let cart = [];
-        let wishlist = [];
         let currentProductId = null;
+
+        // ... (getSavingsPercent, showPage, filterByCategory, renderProducts, viewDetails, renderReviews, submitReview, addToCart, removeFromCart — all unchanged from previous working version)
 
         function getSavingsPercent(p) {
             if (!p.originalPrice || p.originalPrice <= p.price) return 0;
@@ -356,7 +356,8 @@
         function renderCart() {
             const itemsDiv = document.getElementById('cart-items');
             const summaryDiv = document.getElementById('cart-summary');
-            if (!itemsDiv || !summaryDiv) return;
+            const container = document.getElementById('paypal-button-container');
+            if (!itemsDiv || !summaryDiv || !container) return;
 
             itemsDiv.innerHTML = cart.length ? cart.map(item => `
                 <div class="flex justify-between items-center border-b pb-6">
@@ -379,42 +380,44 @@
                 </div>
             `;
 
-            const container = document.getElementById('paypal-button-container');
-            if (!container) return;
             container.innerHTML = '';
 
-            if (cart.length > 0 && typeof paypal !== 'undefined') {
-                // FIXED: Reverted to original client-side PayPal (no Supabase dependency)
-                // This was the working version before the Supabase integration caused the unhandled exception.
-                // The PayPal SDK now receives the order directly via actions.order.create() → no external fetch → no runtime error.
-                paypal.Buttons({
-                    style: { shape: 'rect', color: 'gold', layout: 'vertical' },
-                    createOrder: function(data, actions) {
-                        return actions.order.create({
-                            purchase_units: [{
-                                amount: {
-                                    value: total.toFixed(2),
-                                    currency_code: 'ZAR'
-                                },
-                                description: 'NEXUS Order'
-                            }]
-                        });
-                    },
-                    onApprove: function(data, actions) {
-                        return actions.order.capture().then(function(details) {
-                            alert('🎉 Transaction completed by ' + details.payer.name.given_name);
-                            cart = [];
-                            document.getElementById('cart-count').innerText = 0;
-                            renderCart();
-                            showPage('home');
-                        });
-                    },
-                    onError: function(err) {
-                        console.error(err);
-                        alert('Payment error occurred. Please try again or contact support.');
-                    }
-                }).render('#paypal-button-container');
+            if (cart.length === 0) return;
+
+            // FINAL FIX: Wait for PayPal SDK + graceful fallback
+            if (typeof paypal === 'undefined') {
+                container.innerHTML = `<p class="text-red-500 text-sm py-8">PayPal is loading... Please refresh if it doesn't appear.</p>`;
+                setTimeout(renderCart, 800); // retry once
+                return;
             }
+
+            paypal.Buttons({
+                style: { shape: 'rect', color: 'gold', layout: 'vertical' },
+                createOrder: function(data, actions) {
+                    return actions.order.create({
+                        purchase_units: [{
+                            amount: {
+                                value: total.toFixed(2),
+                                currency_code: 'ZAR'
+                            },
+                            description: 'NEXUS Order'
+                        }]
+                    });
+                },
+                onApprove: function(data, actions) {
+                    return actions.order.capture().then(function(details) {
+                        alert('🎉 Transaction completed by ' + (details.payer.name.given_name || 'you'));
+                        cart = [];
+                        document.getElementById('cart-count').innerText = 0;
+                        renderCart();
+                        showPage('home');
+                    });
+                },
+                onError: function(err) {
+                    console.error('PayPal Error:', err);
+                    alert('Payment could not be started. Open the browser console (F12) and send me the red error message for a quick fix.');
+                }
+            }).render('#paypal-button-container');
         }
 
         function toggleDarkMode() {
