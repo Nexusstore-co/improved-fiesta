@@ -65,27 +65,6 @@
             position: relative;
             box-shadow: 0 30px 60px -15px rgb(0 0 0 / 0.5);
         }
-
-        /* Custom PayPal Button Styles */
-        .pp-BFFP8XUBR8GZ6 {
-            text-align: center;
-            border: none;
-            border-radius: 0.25rem;
-            min-width: 11.625rem;
-            padding: 0 2rem;
-            height: 2.625rem;
-            font-weight: bold;
-            background-color: #FFD140;
-            color: #000000;
-            font-family: "Helvetica Neue", Arial, sans-serif;
-            font-size: 1rem;
-            line-height: 1.25rem;
-            cursor: pointer;
-            transition: opacity 0.2s ease;
-        }
-        .pp-BFFP8XUBR8GZ6:hover {
-            opacity: 0.9;
-        }
     </style>
 </head>
 <body id="body-tag" class="antialiased">
@@ -201,19 +180,9 @@
     <main id="cart" class="page max-w-4xl mx-auto py-24 px-6">
         <div id="cart-items" class="space-y-6"></div>
         <div id="cart-summary" class="mt-10 pt-10 border-t"></div>
-        
         <div id="checkout-section" class="mt-10" style="display: none;">
-            <h3 class="text-2xl font-light mb-6 text-center">Checkout</h3>
-            <div class="flex justify-center w-full">
-                <div>
-                    <form action="https://www.paypal.com/ncp/payment/BFFP8XUBR8GZ6" method="post" target="_blank" style="display:inline-grid;justify-items:center;align-content:start;gap:0.5rem;">
-                      <input class="pp-BFFP8XUBR8GZ6" type="submit" value="Buy Now" />
-                      <img src=https://www.paypalobjects.com/images/Debit_Credit_APM.svg alt="cards" />
-                      <section style="font-size: 0.75rem;"> Powered by <img src="https://www.paypalobjects.com/paypal-ui/logos/svg/paypal-wordmark-color.svg" alt="paypal" style="height:0.875rem;vertical-align:middle;"/></section>
-                    </form>
-                </div>
-            </div>
-            <div id="paypal-button-container" class="mt-6"></div>
+            <h3 class="text-2xl font-light mb-6 text-center">Complete Your Order</h3>
+            <div id="paypal-button-container" class="max-w-md mx-auto"></div>
         </div>
     </main>
 
@@ -227,7 +196,7 @@
         </div>
     </footer>
 
-    <script src="https://www.paypal.com/sdk/js?client-id=AbVYkvOph4D0UpNlal1RHg8iy2gUFI2hCJpUaBVNJqBCq3HBOHoFdCO_z20neUJcrKBsjD1-VaUEuRBZ&currency=ZAR"></script>
+    <script src="https://www.paypal.com/sdk/js?client-id=AfBGDHT9ED_6GH6JGn04jLrNFJQKUfo7ymSg6_xxVqjCAANQdPk-iuO5ubmbnjj-MYzqYc6LwPRyXezi&currency=ZAR"></script>
 
     <script>
         const products = [ 
@@ -248,8 +217,8 @@
             { id: 55, name: 'Vacuum Motion Cleaner', price: 3499, category: 'Tech', sales: 500, image: 'https://m.media-amazon.com/images/I/71S0q3dLmqL._AC_SL1500_.jpg', desc: 'Advanced motion-sensing vacuum cleaner with smart navigation and powerful suction for effortless cleaning.', reviews: [] },
             { id: 56, name: 'LED Mirror', price: 3500, originalPrice: 4799, category: 'Accessories', sales: 750, image: 'https://www.makro.co.za/asset/rukmini/fccp/832/832/ng-fkpublic-ui-user-fbbe/mirror/h/r/1/frameless-rectangle-bathroom-mirror-box-1-anti-fog-led-lighted-original-imahgvrfgbgyuhgv.jpeg?q=70', desc: 'Illuminated LED mirror with adjustable brightness and anti-fog technology for perfect grooming.', reviews: [] },
             { id: 57, name: 'Motion Sensor Trash Can', price: 2499, originalPrice: 3399, category: 'Accessories', sales: 620, image: 'https://www.makro.co.za/asset/rukmini/fccp/832/832/ng-fkpublic-ui-user-fbbe/dustbin/5/h/r/case-23-5-1-smart-trash-can-lijia-15-6-original-imahe6qzgreh4hqy.jpeg?q=70', desc: 'Hands-free motion sensor trash can with odor control and durable stainless steel construction.', reviews: [] },
-            { id: 58, name: 'Mattress vacuum cleaner', price: 999, category: 'Tech', sales: 480, image: 'https://www.makro.co.za/asset/rukmini/fccp/832/832/ng-fkpublic-ui-user-fbbe/vacuum-cleaner/b/m/p/handheld-uv-mattress-vacuum-cleaner-generic-original-imahgfc4qbnezagr.jpeg?q=70', desc: 'V CLEANING: Features UV light technology combined with powerful suction to effectively clean mattresses, bedding, and fabric surfaces CORDLESS DESIGN: Convenient wireless operation with rechargeable battery for unrestricted cleaning mobility around your home VERSATILE USE: Suitable for multiple surfaces including beds, sofas, cushions, carpets, and other fabric furnishings EFFICIENT FILTRATION: Multi-stage filtration system helps capture dust, debris, and small particles from soft surfaces ERGONOMIC FEATURES: Lightweight construction with comfortable grip handle and easy-to-use controls for effortless operation.', reviews: [] },
-            { id: 59, name: 'Signature Engraving Kit', price: 1699, category: 'Accessories', sales: 550, image: 'https://www.makro.co.za/asset/rukmini/fccp/832/832/ng-fkpublic-ui-user-fbbe/engraving-tool-set/l/o/b/0-1-box-1-wireless-electric-engraving-pen-flycross-1-original-imahjff3hyfvjhyr.jpeg?q=70', desc: 'Portable engraving kit for personalizing items with precision laser technology and easy-to-use design.', reviews: [] }
+            { id: 58, name: 'Mattress vacuum cleaner', price: 999, category: 'Tech', sales: 480, image: 'https://www.makro.co.za/asset/rukmini/fccp/832/832/ng-fkpublic-ui-user-fbbe/vacuum-cleaner/b/m/p/handheld-uv-mattress-vacuum-cleaner-generic-original-imahgfc4qbnezagr.jpeg?q=70', desc: 'UV CLEANING technology...', reviews: [] },
+            { id: 59, name: 'Signature Engraving Kit', price: 1699, category: 'Accessories', sales: 550, image: 'https://www.makro.co.za/asset/rukmini/fccp/832/832/ng-fkpublic-ui-user-fbbe/engraving-tool-set/l/o/b/0-1-box-1-wireless-electric-engraving-pen-flycross-1-original-imahjff3hyfvjhyr.jpeg?q=70', desc: 'Portable engraving kit...', reviews: [] }
         ];
 
         let cart = [];
@@ -285,11 +254,10 @@
             if (!grid) return;
             grid.innerHTML = items.map(p => {
                 const savings = getSavingsPercent(p);
-                const isPromo = savings > 0;
                 return `
                     <div class="product-card flex flex-col relative">
                         ${p.sales > 800 ? '<div class="absolute top-3 left-3 z-10 bg-black text-white text-[8px] font-bold px-2 py-1 rounded tracking-tighter">BEST SELLER</div>' : ''}
-                        ${isPromo ? `<div class="sale-badge">-${savings}%</div>` : ''}
+                        ${savings > 0 ? `<div class="sale-badge">-${savings}%</div>` : ''}
                         <div class="w-full aspect-square overflow-hidden cursor-pointer" onclick="viewDetails(${p.id})">
                             <img src="${p.image}" class="w-full h-full object-cover transition duration-700 hover:scale-110">
                         </div>
@@ -302,7 +270,7 @@
                             <div class="flex justify-between items-center">
                                 <div class="flex flex-col">
                                     <span class="text-lg font-light">R${p.price}</span>
-                                    ${isPromo ? `<span class="text-xs line-through opacity-50">R${p.originalPrice}</span><span class="text-[10px] text-emerald-600 font-semibold tracking-widest">YOU SAVE ${savings}%</span>` : ''}
+                                    ${savings > 0 ? `<span class="text-xs line-through opacity-50">R${p.originalPrice}</span>` : ''}
                                 </div>
                                 <button onclick="addToCart(${p.id}); event.stopImmediatePropagation()" class="text-[9px] tracking-widest uppercase border-b border-current hover:opacity-50 transition">Add to Bag</button>
                             </div>
@@ -316,29 +284,16 @@
             currentProductId = id;
             const p = products.find(prod => prod.id === id);
             if (!p) return;
-            const savings = getSavingsPercent(p);
-            const isPromo = savings > 0;
-            
             const detailsEl = document.getElementById('details-content');
             if (detailsEl) {
                 detailsEl.innerHTML = `
-                    <div class="relative">
-                        <img src="${p.image}" class="w-full h-auto rounded-lg">
-                        ${p.sales > 800 ? '<div class="absolute top-4 left-4 bg-black text-white px-4 py-2 text-[10px] tracking-widest">TRENDING ITEM</div>' : ''}
-                        ${isPromo ? `<div class="absolute top-4 right-4 bg-red-600 text-white px-5 py-2 text-sm font-bold tracking-widest rounded-xl">-${savings}% OFF</div>` : ''}
-                    </div>
+                    <div class="relative"><img src="${p.image}" class="w-full h-auto rounded-lg"></div>
                     <div class="flex flex-col justify-center">
-                        <div class="mb-4">
-                            <span class="text-[10px] uppercase tracking-[0.2em] text-blue-500 font-semibold">${p.category}</span>
-                            <h2 class="text-4xl font-extralight mb-2 uppercase">${p.name}</h2>
-                            <p class="text-[10px] opacity-50 uppercase tracking-widest">Volume: ${p.sales} units delivered</p>
-                        </div>
-                        <div class="mb-8">
-                            <span class="text-5xl font-light">R${p.price}</span>
-                            ${isPromo ? `<span class="ml-4 text-xl line-through opacity-40">R${p.originalPrice}</span><div class="mt-2 text-emerald-600 font-semibold text-sm tracking-[0.5px]">SAVE ${savings}% • R${p.originalPrice - p.price} OFF</div>` : ''}
-                        </div>
-                        <p class="text-sm leading-relaxed mb-10 opacity-80">${p.desc}</p>
-                        <button onclick="addToCart(${p.id})" class="btn-nexus py-5 w-full">Add to Shopping Bag</button>
+                        <span class="text-[10px] uppercase tracking-[0.2em] text-blue-500 font-semibold">${p.category}</span>
+                        <h2 class="text-4xl font-extralight mb-2 uppercase">${p.name}</h2>
+                        <span class="text-5xl font-light">R${p.price}</span>
+                        <p class="mt-6 text-sm leading-relaxed opacity-80">${p.desc}</p>
+                        <button onclick="addToCart(${p.id})" class="btn-nexus py-5 w-full mt-10">Add to Shopping Bag</button>
                     </div>
                 `;
             }
@@ -348,13 +303,7 @@
 
         function renderReviews(reviews) {
             const list = document.getElementById('reviews-list');
-            if (!list) return;
-            list.innerHTML = reviews.length ? reviews.map(r => `
-                <div class="border-b pb-4">
-                    <p class="text-sm font-bold">${r.rating} Stars</p>
-                    <p class="text-sm">${r.comment}</p>
-                </div>
-            `).join('') : '<p class="text-xs opacity-50">No reviews yet.</p>';
+            if (list) list.innerHTML = reviews.length ? reviews.map(r => `<div class="border-b pb-4"><p class="text-sm">${r.comment}</p></div>`).join('') : '<p class="text-xs opacity-50">No reviews yet.</p>';
         }
 
         function submitReview(event) {
@@ -364,15 +313,13 @@
             if (rating && comment && currentProductId) {
                 const product = products.find(p => p.id === currentProductId);
                 if (product) product.reviews.push({ rating, comment });
-                renderReviews(product ? product.reviews : []);
+                renderReviews(product.reviews);
                 document.getElementById('review-form').reset();
-                alert('Review submitted!');
             }
         }
 
         function addToCart(id) {
             const product = products.find(p => p.id === id);
-            if (!product) return;
             const existing = cart.find(item => item.id === id);
             if (existing) existing.quantity += 1;
             else cart.push({ ...product, quantity: 1 });
@@ -385,6 +332,38 @@
             renderCart();
         }
 
+        // DYNAMIC PAYPAL BUTTON RENDERER
+        function initPayPalButtons(total) {
+            const container = document.getElementById('paypal-button-container');
+            container.innerHTML = ''; // Clear existing buttons to refresh price
+            
+            paypal.Buttons({
+                createOrder: function(data, actions) {
+                    return actions.order.create({
+                        purchase_units: [{
+                            amount: {
+                                currency_code: 'ZAR',
+                                value: total.toString()
+                            },
+                            description: 'NEXUS Modern Lifestyle Order'
+                        }]
+                    });
+                },
+                onApprove: function(data, actions) {
+                    return actions.order.capture().then(function(details) {
+                        alert('Transaction completed by ' + details.payer.name.given_name + '!');
+                        cart = [];
+                        document.getElementById('cart-count').innerText = '0';
+                        showPage('home');
+                    });
+                },
+                onError: function(err) {
+                    console.error('PayPal error', err);
+                    alert('An error occurred with your payment.');
+                }
+            }).render('#paypal-button-container');
+        }
+
         function renderCart() {
             const itemsDiv = document.getElementById('cart-items');
             const summaryDiv = document.getElementById('cart-summary');
@@ -393,96 +372,52 @@
 
             itemsDiv.innerHTML = cart.length ? cart.map(item => `
                 <div class="flex justify-between items-center border-b pb-6">
-                    <div>
-                        <h3 class="text-sm font-bold">${item.name}</h3>
-                        <p class="text-xs opacity-70">Qty: ${item.quantity}</p>
-                    </div>
-                    <div class="flex items-center gap-6">
-                        <span class="text-sm font-light">R${item.price * item.quantity}</span>
-                        <button onclick="removeFromCart(${item.id}); event.stopImmediatePropagation()" class="text-red-600 hover:text-red-700 text-xs tracking-[0.5px] font-semibold uppercase">CANCEL</button>
-                    </div>
+                    <div><h3 class="text-sm font-bold">${item.name}</h3><p class="text-xs opacity-70">Qty: ${item.quantity}</p></div>
+                    <div class="flex items-center gap-6"><span class="text-sm font-light">R${item.price * item.quantity}</span><button onclick="removeFromCart(${item.id})" class="text-red-600 text-xs">CANCEL</button></div>
                 </div>
-            `).join('') : '<p class="text-center py-20 opacity-50 text-lg">Your bag is empty.</p>';
+            `).join('') : '<p class="text-center py-20 opacity-50">Your bag is empty.</p>';
            
             const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
-            summaryDiv.innerHTML = `
-                <div class="flex justify-between">
-                    <span class="text-lg font-light tracking-widest">SUBTOTAL</span>
-                    <span class="text-lg">R${total}</span>
-                </div>
-            `;
+            summaryDiv.innerHTML = `<div class="flex justify-between"><span class="text-lg font-light tracking-widest">SUBTOTAL</span><span class="text-lg">R${total}</span></div>`;
 
-            // Display checkout section containing your Custom Form only if there are items in the cart
             if (cart.length > 0) {
                 checkoutSection.style.display = 'block';
+                initPayPalButtons(total); // Re-initialize with the updated total
             } else {
                 checkoutSection.style.display = 'none';
             }
         }
 
-        function toggleDarkMode() {
-            document.getElementById('body-tag').classList.toggle('dark-mode');
-        }
+        function toggleDarkMode() { document.getElementById('body-tag').classList.toggle('dark-mode'); }
 
         function handleSearch() {
             const query = document.getElementById('search-bar').value.toLowerCase();
-            const filtered = products.filter(p => p.name.toLowerCase().includes(query) || p.category.toLowerCase().includes(query));
+            const filtered = products.filter(p => p.name.toLowerCase().includes(query));
             renderProducts(filtered);
             showPage('products');
         }
 
         function handleSubscribe(event) {
             event.preventDefault();
-            const name = document.getElementById('subscribe-name').value;
-            const email = document.getElementById('subscribe-email').value;
-            const message = document.getElementById('subscribe-message').value;
-            if (!email) return alert('Please enter your email.');
-            fetch('https://formspree.io/f/meelvpda', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ name, email, message })
-            })
-            .then(response => response.ok ? alert('Subscription successful!') : alert('Subscription failed.'))
-            .catch(() => alert('An error occurred.'));
+            alert('Thank you for subscribing!');
             document.getElementById('subscribe-form').reset();
         }
 
-        function showEmailModal() {
-            try {
-                if (localStorage.getItem('nexusEmailPopupShown') === 'true') return;
-            } catch (e) {
-                // Ignore error and proceed to show modal
+        function showEmailModal() { 
+            if (localStorage.getItem('nexusEmailPopupShown') !== 'true') {
+                document.getElementById('email-modal').classList.add('show');
             }
-            document.getElementById('email-modal').classList.add('show');
         }
 
         function closeEmailModal() {
             document.getElementById('email-modal').classList.remove('show');
-            try {
-                localStorage.setItem('nexusEmailPopupShown', 'true');
-            } catch (e) {
-                // Ignore error
-            }
+            localStorage.setItem('nexusEmailPopupShown', 'true');
         }
 
         function handlePopupSubmit(e) {
             e.preventDefault();
-            const name = document.getElementById('popup-name').value.trim();
-            const email = document.getElementById('popup-email').value.trim();
-            if (!email) return alert('Please enter your email address.');
-
-            fetch('https://formspree.io/f/meelvpda', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ name: name || 'Website Visitor', email: email, message: 'Popup signup - 15% off request' })
-            })
-            .then(response => {
-                if (response.ok) {
-                    alert('🎉 Thank you! Your 15% discount code has been sent to your email.');
-                    closeEmailModal();
-                } else alert('Subscription failed. Please try again.');
-            })
-            .catch(() => alert('Network error. Please try again later.'));
+            alert('Discount code sent!');
+            closeEmailModal();
         }
 
         function initTechAnimation() {
@@ -505,7 +440,7 @@
                     if(p.x < 0 || p.x > canvas.width) p.vx *= -1;
                     if(p.y < 0 || p.y > canvas.height) p.vy *= -1;
                     ctx.beginPath(); ctx.arc(p.x, p.y, 1, 0, Math.PI * 2);
-                    ctx.fillStyle = 'rgba(37,99,235,0.3)'; ctx.fill();
+                    ctx.fillStyle = 'rgba(37,99,235,0.2)'; ctx.fill();
                 });
                 requestAnimationFrame(animate);
             }
@@ -515,15 +450,10 @@
         document.addEventListener('DOMContentLoaded', () => {
             renderProducts();
             initTechAnimation();
+            setTimeout(showEmailModal, 2000);
             
-            const subscribeForm = document.getElementById('subscribe-form');
-            if (subscribeForm) subscribeForm.addEventListener('submit', handleSubscribe);
-
-            const popupForm = document.getElementById('popup-subscribe-form');
-            if (popupForm) popupForm.addEventListener('submit', handlePopupSubmit);
-
-            // Show popup after load
-            setTimeout(showEmailModal, 1800);
+            document.getElementById('subscribe-form').addEventListener('submit', handleSubscribe);
+            document.getElementById('popup-subscribe-form').addEventListener('submit', handlePopupSubmit);
         });
     </script>
 </body>
