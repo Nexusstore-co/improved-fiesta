@@ -188,7 +188,7 @@
         <div id="cart-items" class="space-y-6"></div>
         <div id="cart-summary" class="mt-10 pt-10 border-t"></div>
         <div id="checkout-section" class="mt-10">
-            <h3 class="text-2xl font-light mb-4">Ready to Checkout?</h3>
+            <h3 class="text-2xl font-light mb-4">Proceed to Secure Payment</h3>
             <div id="paypal-button-container"></div>
         </div>
     </main>
@@ -204,9 +204,9 @@
         </div>
     </footer>
 
-    <!-- PAYPAL SDK - Dynamic buttons (exact cart total) - Payment 100% handled by PayPal -->
+    <!-- PAYPAL SDK - Dynamic Buttons (exact cart total + 100% PayPal processing) -->
     <script 
-      src="https://www.paypal.com/sdk/js?client-id=BAAOkIpuu7DP4hfE0V44yaZqgEh2jFpXzLFjJ0MmuXFHwfO1_PMejUKn74Nri53_hv1FUk_vslsvOltag0&disable-funding=venmo&currency=ZAR">
+      src="https://www.paypal.com/sdk/js?client-id=BAAOkIpuu7DP4hfE0V44yaZqgEh2jFpXzLFjJ0MmuXFHwfO1_PMejUKn74Nri53_hv1FUk_vslsvOltag0&currency=USD">
     </script>
 
     <script>
@@ -372,7 +372,6 @@
 
             if (!itemsDiv || !summaryDiv) return;
 
-            // Render items
             itemsDiv.innerHTML = cart.length ? cart.map(item => `
                 <div class="flex justify-between items-center border-b pb-6">
                     <div>
@@ -396,24 +395,25 @@
                 </div>
             `;
 
-            // === DYNAMIC PAYPAL BUTTON (uses exact cart total) ===
+            // === DYNAMIC PAYPAL BUTTON - uses EXACT cart total automatically ===
             if (paymentContainer) {
                 paymentContainer.innerHTML = '';
                 if (cart.length > 0 && typeof paypal !== 'undefined') {
                     paypal.Buttons({
+                        style: { shape: 'rect', color: 'blue', layout: 'vertical' },
                         createOrder: function(data, actions) {
                             return actions.order.create({
                                 purchase_units: [{
                                     amount: {
-                                        value: total.toFixed(2),
-                                        currency_code: 'ZAR'   // Matches your site prices
+                                        value: total.toFixed(2),   // ← EXACT cart total
+                                        currency_code: 'USD'
                                     }
                                 }]
                             });
                         },
                         onApprove: function(data, actions) {
                             return actions.order.capture().then(function(details) {
-                                alert('✅ Payment successful! Thank you ' + details.payer.name.given_name);
+                                alert('✅ Payment successful! Thank you for shopping at NEXUS.');
                                 cart = [];
                                 document.getElementById('cart-count').innerText = 0;
                                 renderCart();
@@ -425,8 +425,6 @@
                             alert('Payment failed. Please try again.');
                         }
                     }).render('#paypal-button-container');
-                } else if (cart.length > 0) {
-                    paymentContainer.innerHTML = `<p class="text-xs text-center opacity-50">Loading PayPal... refresh if button doesn't appear.</p>`;
                 }
             }
         }
