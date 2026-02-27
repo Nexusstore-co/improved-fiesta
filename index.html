@@ -194,9 +194,12 @@
             <p class="text-[9px] opacity-30 tracking-[0.3em]">© 2024 NEXUS COLLECTIVE. DESIGNED FOR THE FUTURE.</p>
         </div>
     </footer>
+
+    <!-- PayPal SDK -->
     <script src="https://www.paypal.com/sdk/js?client-id=AbVYkvOph4D0UpNlal1RHg8iy2gUFI2hCJpUaBVNJqBCq3HBOHoFdCO_z20neUJcrKBsjD1-VaUEuRBZ&currency=ZAR"></script>
+
     <script>
-        const products = [
+        const products = [ /* unchanged */ 
             { id: 1, name: 'Portable Car Hookah', price: 1360, originalPrice: 1850, category: 'Automotive', sales: 2100, image: 'https://www.ashishaonline.co.za/cdn/shop/products/109478526_3324191984298017_5697333573222117201_o_portable_shisha_2048x.jpg?v=1658918521', desc: 'Travel hookah designed for standard cup holders. Fits securely in most vehicle cup holders.', reviews: [] },
             { id: 2, name: 'Auto Soap Dispenser', price: 720, originalPrice: 950, category: 'Home', sales: 850, image: 'https://thefoschini.vtexassets.com/arquivos/ids/213899792-1200-1600?v=638901801086030000&width=1200&height=1600&aspect=true', desc: 'Touchless IR sensor dispenser. Experience hygienic handwashing.', reviews: [] },
             { id: 3, name: 'Dog Paw Cleaner', price: 560, category: 'Pets', sales: 100, image: 'https://www.makro.co.za/asset/rukmini/fccp/832/832/ng-fkpublic-ui-user-fbbe/pet-cleanser/x/w/x/10-box-1-131746-alanes-original-imahbc3ktpx4sfw5.jpeg?q=70', desc: 'Silicone brush for muddy paws. Keep your home clean easily.', reviews: [] },
@@ -217,6 +220,7 @@
             { id: 58, name: 'Mattress vacuum cleaner', price: 999, category: 'Tech', sales: 480, image: 'https://www.makro.co.za/asset/rukmini/fccp/832/832/ng-fkpublic-ui-user-fbbe/vacuum-cleaner/b/m/p/handheld-uv-mattress-vacuum-cleaner-generic-original-imahgfc4qbnezagr.jpeg?q=70', desc: 'V CLEANING: Features UV light technology combined with powerful suction to effectively clean mattresses, bedding, and fabric surfaces CORDLESS DESIGN: Convenient wireless operation with rechargeable battery for unrestricted cleaning mobility around your home VERSATILE USE: Suitable for multiple surfaces including beds, sofas, cushions, carpets, and other fabric furnishings EFFICIENT FILTRATION: Multi-stage filtration system helps capture dust, debris, and small particles from soft surfaces ERGONOMIC FEATURES: Lightweight construction with comfortable grip handle and easy-to-use controls for effortless operation.', reviews: [] },
             { id: 59, name: 'Signature Engraving Kit', price: 1699, category: 'Accessories', sales: 550, image: 'https://www.makro.co.za/asset/rukmini/fccp/832/832/ng-fkpublic-ui-user-fbbe/engraving-tool-set/l/o/b/0-1-box-1-wireless-electric-engraving-pen-flycross-1-original-imahjff3hyfvjhyr.jpeg?q=70', desc: 'Portable engraving kit for personalizing items with precision laser technology and easy-to-use design.', reviews: [] }
         ];
+
         let cart = [];
         let wishlist = [];
         let currentProductId = null;
@@ -283,7 +287,6 @@
             if (!p) return;
             const savings = getSavingsPercent(p);
             const isPromo = savings > 0;
-           
             const detailsEl = document.getElementById('details-content');
             if (detailsEl) {
                 detailsEl.innerHTML = `
@@ -377,59 +380,40 @@
             `;
 
             const container = document.getElementById('paypal-button-container');
-            if (container) {
-                container.innerHTML = '';
-                if (cart.length > 0) {
-                    // ====================== PAYPAL BUTTON (SECURE SUPABASE EDGE FUNCTION VERSION) ======================
-                    // Integrated from provided code. Amount is handled server-side in the Supabase Edge Function (currently hardcoded to $5).
-                    // Supabase auth/insert lines removed to prevent errors (no Supabase client initialized in this frontend).
-                    paypal.Buttons({
-                        style: { shape: 'rect', color: 'gold', layout: 'vertical' },
-                        createOrder: function() {
-                            return fetch('https://shdublmpkqvinmsxqvmh.supabase.co/functions/v2/create-paypal-order', {
-                                method: 'POST',
-                                headers: { 'Content-Type': 'application/json' }
-                                // NO body needed — amount is hardcoded to $5 in the Edge Function
-                            })
-                            .then(res => {
-                                if (!res.ok) throw new Error('Failed to create order');
-                                return res.json();
-                            })
-                            .then(order => order.id);
-                        },
-                        onApprove: function(data) {
-                            return fetch('https://shdublmpkqvinmsxqvmh.supabase.co/functions/v2/capture-paypal-order', {
-                                method: 'POST',
-                                headers: { 'Content-Type': 'application/json' },
-                                body: JSON.stringify({ orderID: data.orderID })
-                            })
-                            .then(res => {
-                                if (!res.ok) throw new Error('Failed to capture payment');
-                                return res.json();
-                            })
-                            .then((orderData) => {
-                                if (orderData.status === "COMPLETED") {
-                                    alert('🎉 Payment successful! Thank you!');
-                                    cart = [];
-                                    document.getElementById('cart-count').innerText = 0;
-                                    renderCart();
-                                    showPage('home');
-                                } else {
-                                    alert('Payment not completed. Status: ' + (orderData.status || 'unknown'));
-                                }
-                            })
-                            .catch(err => {
-                                console.error(err);
-                                alert('Payment failed. Please try again.');
-                            });
-                        },
-                        onError: function(err) {
-                            console.error(err);
-                            alert('Payment error occurred. Please try again.');
-                        }
-                    }).render('#paypal-button-container');
-                    // ============================================================
-                }
+            if (!container) return;
+            container.innerHTML = '';
+
+            if (cart.length > 0 && typeof paypal !== 'undefined') {
+                // FIXED: Reverted to original client-side PayPal (no Supabase dependency)
+                // This was the working version before the Supabase integration caused the unhandled exception.
+                // The PayPal SDK now receives the order directly via actions.order.create() → no external fetch → no runtime error.
+                paypal.Buttons({
+                    style: { shape: 'rect', color: 'gold', layout: 'vertical' },
+                    createOrder: function(data, actions) {
+                        return actions.order.create({
+                            purchase_units: [{
+                                amount: {
+                                    value: total.toFixed(2),
+                                    currency_code: 'ZAR'
+                                },
+                                description: 'NEXUS Order'
+                            }]
+                        });
+                    },
+                    onApprove: function(data, actions) {
+                        return actions.order.capture().then(function(details) {
+                            alert('🎉 Transaction completed by ' + details.payer.name.given_name);
+                            cart = [];
+                            document.getElementById('cart-count').innerText = 0;
+                            renderCart();
+                            showPage('home');
+                        });
+                    },
+                    onError: function(err) {
+                        console.error(err);
+                        alert('Payment error occurred. Please try again or contact support.');
+                    }
+                }).render('#paypal-button-container');
             }
         }
 
@@ -528,6 +512,7 @@
             if (subscribeForm) subscribeForm.addEventListener('submit', handleSubscribe);
             const popupForm = document.getElementById('popup-subscribe-form');
             if (popupForm) popupForm.addEventListener('submit', handlePopupSubmit);
+
             setTimeout(showEmailModal, 1800);
         });
     </script>
