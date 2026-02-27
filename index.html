@@ -204,6 +204,11 @@
         </div>
     </footer>
 
+    <!-- PAYPAL HOSTED BUTTONS SDK (payment handled 100% by PayPal - nothing processed on your website) -->
+    <script 
+      src="https://www.paypal.com/sdk/js?client-id=BAAOkIpuu7DP4hfE0V44yaZqgEh2jFpXzLFjJ0MmuXFHwfO1_PMejUKn74Nri53_hv1FUk_vslsvOltag0&components=hosted-buttons&disable-funding=venmo&currency=USD">
+    </script>
+
     <script>
         const products = [ 
             { id: 1, name: 'Portable Car Hookah', price: 1360, originalPrice: 1850, category: 'Automotive', sales: 2100, image: 'https://www.ashishaonline.co.za/cdn/shop/products/109478526_3324191984298017_5697333573222117201_o_portable_shisha_2048x.jpg?v=1658918521', desc: 'Travel hookah designed for standard cup holders. Fits securely in most vehicle cup holders.', reviews: [] },
@@ -367,6 +372,7 @@
 
             if (!itemsDiv || !summaryDiv) return;
 
+            // Render cart items
             itemsDiv.innerHTML = cart.length ? cart.map(item => `
                 <div class="flex justify-between items-center border-b pb-6">
                     <div>
@@ -381,6 +387,7 @@
                 </div>
             `).join('') : '<p class="text-center py-20 opacity-50 text-lg">Your bag is empty.</p>';
 
+            // Calculate total (shown for customer reference)
             const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
             summaryDiv.innerHTML = `
@@ -390,35 +397,26 @@
                 </div>
             `;
 
+            // === PAYPAL HOSTED BUTTON (payment 100% on PayPal - no processing on your site) ===
             if (paymentContainer) {
+                paymentContainer.innerHTML = '';
                 if (cart.length > 0) {
-                    paymentContainer.innerHTML = `
-                        <button onclick="proceedToPayment()" 
-                                class="btn-nexus w-full py-5 text-sm tracking-widest">
-                            PROCEED TO SECURE PAYMENT
-                        </button>
-                        <p class="text-center text-[10px] mt-4 opacity-60">
-                            Total: R${total.toFixed(0)} • You'll enter this amount on PayPal
-                        </p>
-                    `;
-                } else {
-                    paymentContainer.innerHTML = '';
+                    const hostedDiv = document.createElement('div');
+                    hostedDiv.id = 'paypal-hosted-button-container';
+                    paymentContainer.appendChild(hostedDiv);
+
+                    // Small delay to ensure PayPal SDK is fully loaded
+                    setTimeout(() => {
+                        if (typeof paypal !== 'undefined' && paypal.HostedButtons) {
+                            paypal.HostedButtons({
+                                hostedButtonId: 'YOUR_HOSTED_BUTTON_ID_HERE'   // ←←← REPLACE THIS WITH YOUR ACTUAL ID FROM PAYPAL DASHBOARD
+                            }).render('#paypal-hosted-button-container');
+                        } else {
+                            paymentContainer.innerHTML = '<p class="text-xs text-red-500 text-center">PayPal not ready yet. Please refresh the page.</p>';
+                        }
+                    }, 800);
                 }
             }
-        }
-
-        function proceedToPayment() {
-            const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
-            if (total <= 0) return;
-
-            // Redirect to your PayPal.me link
-            window.location.href = "https://paypal.me/NexusstoreZA";
-
-            // Optional: clear cart immediately after redirect (uncomment if desired)
-            // cart = [];
-            // document.getElementById('cart-count').innerText = 0;
-            // renderCart();
-            // showPage('home');
         }
 
         function toggleDarkMode() {
