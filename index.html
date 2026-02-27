@@ -65,24 +65,6 @@
             position: relative;
             box-shadow: 0 30px 60px -15px rgb(0 0 0 / 0.5);
         }
-
-        /* BUY NOW BUTTON */
-        .btn-buy-now {
-            background: #000;
-            color: #fff;
-            padding: 1.25rem;
-            font-size: 13px;
-            letter-spacing: 0.1em;
-            font-weight: 700;
-            text-transform: uppercase;
-            border: none;
-            border-radius: 6px;
-            transition: all 0.3s ease;
-        }
-        .btn-buy-now:hover {
-            background: #111;
-            transform: translateY(-1px);
-        }
     </style>
 </head>
 <body id="body-tag" class="antialiased">
@@ -206,8 +188,7 @@
         <div id="cart-items" class="space-y-6"></div>
         <div id="cart-summary" class="mt-10 pt-10 border-t"></div>
         <div id="checkout-section" class="mt-10">
-            <h3 class="text-2xl font-light mb-4">Secure Checkout</h3>
-            <p class="text-xs opacity-60 mb-6">Powered by PayPal • Instant & secure</p>
+            <h3 class="text-2xl font-light mb-4">Ready to Checkout?</h3>
             <div id="paypal-button-container"></div>
         </div>
     </main>
@@ -223,11 +204,8 @@
         </div>
     </footer>
 
-    <!-- PAYPAL SDK -->
-    <script src="https://www.paypal.com/sdk/js?client-id=AbVYkvOph4D0UpNlal1RHg8iy2gUFI2hCJpUaBVNJqBCq3HBOHoFdCO_z20neUJcrKBsjD1-VaUEuRBZ&currency=ZAR"></script>
-
     <script>
-        const products = [
+        const products = [ 
             { id: 1, name: 'Portable Car Hookah', price: 1360, originalPrice: 1850, category: 'Automotive', sales: 2100, image: 'https://www.ashishaonline.co.za/cdn/shop/products/109478526_3324191984298017_5697333573222117201_o_portable_shisha_2048x.jpg?v=1658918521', desc: 'Travel hookah designed for standard cup holders. Fits securely in most vehicle cup holders.', reviews: [] },
             { id: 2, name: 'Auto Soap Dispenser', price: 720, originalPrice: 950, category: 'Home', sales: 850, image: 'https://thefoschini.vtexassets.com/arquivos/ids/213899792-1200-1600?v=638901801086030000&width=1200&height=1600&aspect=true', desc: 'Touchless IR sensor dispenser. Experience hygienic handwashing.', reviews: [] },
             { id: 3, name: 'Dog Paw Cleaner', price: 560, category: 'Pets', sales: 100, image: 'https://www.makro.co.za/asset/rukmini/fccp/832/832/ng-fkpublic-ui-user-fbbe/pet-cleanser/x/w/x/10-box-1-131746-alanes-original-imahbc3ktpx4sfw5.jpeg?q=70', desc: 'Silicone brush for muddy paws. Keep your home clean easily.', reviews: [] },
@@ -239,13 +217,13 @@
             { id: 19, name: 'Xbox wireless controller', price: 3499, category: 'Accessories', sales: 180, image: 'https://thefoschini.vtexassets.com/arquivos/ids/221238481-1200-1600?v=638965623560270000&width=1200&height=1600&aspect=true', desc: 'Hold nothing back with the Breaker special edition series. Ice Breaker keeps it forever fresh with a mix of iced and frosted blues. Stay elegantly on target with textured triggers and hold on to the action with rubberized grips on the back cases. Includes Xbox Wireless and Bluetooth technology to quickly pair with, play on, and switch between devices including console, PC, and cloud.', reviews: [] },
             { id: 20, name: 'Benewy sleep Headphones Bluetooth Eye mask with built in speakers', price: 2999, category: 'Tech', sales: 920, image: 'https://m.media-amazon.com/images/I/81JT54o3L2L._AC_SX679_.jpg', desc: 'Stereo Sound with Thin Speakers Thickness is only one-third of the average speaker, which is very comfortable for sleepers. True HD HIFI sound featuring latest Bluetooth V-5.0 technology that produce great sound quality, bluetooth can pair your iPhone XS Max/ iPhone XS/ iPhone XR/ iPhone X/ iPhone 7/ iPhone 8/ iPhone 6 or any other Smartphones iPad Tablets easily.Compatible with Android and Ios.It is the best gift for family or friends on travel and airplane in Festivals.', reviews: [] },
             { id: 35, name: 'Wireless hair straigtner comb', price: 1200, originalPrice: 1699, category: 'Accessories', sales: 440, image: 'https://www.makro.co.za/asset/rukmini/fccp/832/832/ng-fkpublic-ui-user-fbbe/electric-hair-curler/x/l/g/8-8-5-box-cordless-hair-straightening-comb-marevic-original-imahh3fhhzk2ecze.jpeg?q=70', desc: 'cordless hair straightening comb with a maximum temperature of 200 degrees.', reviews: [] },
-            { id: 36, name: 'Magnetic gym water bottle sleeve', price: 999, category: 'Accessories', sales: 1080, image: 'https://www.makro.co.za/asset/rukmini/fccp/832/832/ng-fkpublic-ui-user-fbbe/sport-bag/7/l/q/magnetic-water-bottle-gym-sleeve-standard-box-saddle-bag-original-imaheygpkzgrqcer.jpeg?q=70', desc: 'Magnetic Water Bottle Gym Sleeve- Where Function Meets Professionalism Elevate your active lifestyle with a bag designed to hold your water bottle and other essentials with precision and style. The Magnetic Water Bottle Gym Bag seamlessly blends convenience with a refined aesthetic, making it an indispensable accessory for the modern professional.', reviews: [] },
+            { id: 36, name: 'Magnetic gym water bottle sleeve', price: 999, category: 'Accessories', sales: 1080, image: 'https://www.makro.co.za/asset/rukmini/fccp/832/832/ng-fkpublic-ui-user-fbbe/sport-bag/7/l/q/magnetic-water-bottle-gym-sleeve-standard-box-saddle-bag-original-imaheygpkzgrqcer.jpeg?q=70', desc: 'Magnetic Water Bottle Gym Sleeve- Where Function Meets Professionalism Elevate your active lifestyle with a bag designed to hold your water bottle and other essentials with precision and style. The Magnetic Water Bottle Gym Bag seamlessly blends convenience with a refined aesthetic, making it an indispensable accessory for the modern professional. Key Features: Magnetic Attachment: Equipped with robust magnets, this gym bag secures itself to metal surfaces such as gym equipment. This ensures that your water bottle, phone, gym card, and AirPods remain accessible and secure during workouts. Multiple Pockets: Thoughtfully designed with dedicated storage areas, the bag includes pockets for smartphones, keys, and other gym accessories-keeping your items organized and within easy reach.', reviews: [] },
             { id: 45, name: 'Ai smart glasses Built in 8mp HD 1080 Camera, Chatgpt real rime translation smartview pro', price: 2700, originalPrice: 3799, category: 'Tech', sales: 1100, image: 'https://m.media-amazon.com/images/I/41XJzyPVduL._AC_SX679_.jpg', desc: 'Built-in 8MP Camera & 1080P Video with Audio, Images analysis, Take photos, record videos without phone Real-Time Language Translation , 25 languages supported : Chinese, English, French, German, Spanish, Japanese, Italian, Hindi, Korean, Thai, Russian, Vietnamese, Malay, Indonesian, Greek, Czech, Romanian, Swedish, Dutch, Polish, Arabic, Persian, Urdu, Turkish and Hungarian ChatGPT Voice Assistant Music and Podcasts On the Go Answer Calls Hands Free Up to 8 hours active use / 30 hours standby, 320mAh.', reviews: [] },
-            { id: 50, name: 'Xiaomi Robot Vacuum E5 black', price: 4999, originalPrice: 6499, category: 'Tech', sales: 670, image: 'https://thefoschini.vtexassets.com/arquivos/ids/213812593-1200-1600?v=638901774087230000&width=1200&height=1600&aspect=true', desc: 'The Xiaomi Robot Vacuum E5 offers efficient vacuuming and mopping in one device, ideal for pet owners and maintaining a hair-free environment.', reviews: [] },
+            { id: 50, name: 'Xiaomi Robot Vacuum E5 black', price: 4999, originalPrice: 6499, category: 'Tech', sales: 670, image: 'https://thefoschini.vtexassets.com/arquivos/ids/213812593-1200-1600?v=638901774087230000&width=1200&height=1600&aspect=true', desc: 'The Xiaomi Robot Vacuum E5 offers efficient vacuuming and mopping in one device, ideal for pet owners and maintaining a hair-free environment. Its compact 300mm body and low 70mm height allow it to navigate tight spaces and under furniture, ensuring thorough cleaning. With dual side brushes, a nozzle, a dustbin filter, and a powerful 2000Pa suction fan, it provides deep and efficient cleaning. Intelligent sensors enable flexible obstacle navigation, while its zigzag cleaning path maximizes coverage. Remotely controllable via the Mi Home/Xiaomi Home app and compatible with Alexa and Google Assistant, it integrates seamlessly into smart homes.', reviews: [] },
             { id: 55, name: 'Vacuum Motion Cleaner', price: 3499, category: 'Tech', sales: 500, image: 'https://m.media-amazon.com/images/I/71S0q3dLmqL._AC_SL1500_.jpg', desc: 'Advanced motion-sensing vacuum cleaner with smart navigation and powerful suction for effortless cleaning.', reviews: [] },
             { id: 56, name: 'LED Mirror', price: 3500, originalPrice: 4799, category: 'Accessories', sales: 750, image: 'https://www.makro.co.za/asset/rukmini/fccp/832/832/ng-fkpublic-ui-user-fbbe/mirror/h/r/1/frameless-rectangle-bathroom-mirror-box-1-anti-fog-led-lighted-original-imahgvrfgbgyuhgv.jpeg?q=70', desc: 'Illuminated LED mirror with adjustable brightness and anti-fog technology for perfect grooming.', reviews: [] },
             { id: 57, name: 'Motion Sensor Trash Can', price: 2499, originalPrice: 3399, category: 'Accessories', sales: 620, image: 'https://www.makro.co.za/asset/rukmini/fccp/832/832/ng-fkpublic-ui-user-fbbe/dustbin/5/h/r/case-23-5-1-smart-trash-can-lijia-15-6-original-imahe6qzgreh4hqy.jpeg?q=70', desc: 'Hands-free motion sensor trash can with odor control and durable stainless steel construction.', reviews: [] },
-            { id: 58, name: 'Mattress vacuum cleaner', price: 999, category: 'Tech', sales: 480, image: 'https://www.makro.co.za/asset/rukmini/fccp/832/832/ng-fkpublic-ui-user-fbbe/vacuum-cleaner/b/m/p/handheld-uv-mattress-vacuum-cleaner-generic-original-imahgfc4qbnezagr.jpeg?q=70', desc: 'V CLEANING: Features UV light technology combined with powerful suction to effectively clean mattresses, bedding, and fabric surfaces.', reviews: [] },
+            { id: 58, name: 'Mattress vacuum cleaner', price: 999, category: 'Tech', sales: 480, image: 'https://www.makro.co.za/asset/rukmini/fccp/832/832/ng-fkpublic-ui-user-fbbe/vacuum-cleaner/b/m/p/handheld-uv-mattress-vacuum-cleaner-generic-original-imahgfc4qbnezagr.jpeg?q=70', desc: 'V CLEANING: Features UV light technology combined with powerful suction to effectively clean mattresses, bedding, and fabric surfaces CORDLESS DESIGN: Convenient wireless operation with rechargeable battery for unrestricted cleaning mobility around your home VERSATILE USE: Suitable for multiple surfaces including beds, sofas, cushions, carpets, and other fabric furnishings EFFICIENT FILTRATION: Multi-stage filtration system helps capture dust, debris, and small particles from soft surfaces ERGONOMIC FEATURES: Lightweight construction with comfortable grip handle and easy-to-use controls for effortless operation.', reviews: [] },
             { id: 59, name: 'Signature Engraving Kit', price: 1699, category: 'Accessories', sales: 550, image: 'https://www.makro.co.za/asset/rukmini/fccp/832/832/ng-fkpublic-ui-user-fbbe/engraving-tool-set/l/o/b/0-1-box-1-wireless-electric-engraving-pen-flycross-1-original-imahjff3hyfvjhyr.jpeg?q=70', desc: 'Portable engraving kit for personalizing items with precision laser technology and easy-to-use design.', reviews: [] }
         ];
 
@@ -335,23 +313,12 @@
                             ${isPromo ? `<span class="ml-4 text-xl line-through opacity-40">R${p.originalPrice}</span><div class="mt-2 text-emerald-600 font-semibold text-sm tracking-[0.5px]">SAVE ${savings}% • R${p.originalPrice - p.price} OFF</div>` : ''}
                         </div>
                         <p class="text-sm leading-relaxed mb-10 opacity-80">${p.desc}</p>
-                        
-                        <div class="flex flex-col gap-4">
-                            <button onclick="addToCart(${p.id});" class="btn-nexus py-5 w-full">Add to Shopping Bag</button>
-                            <!-- NEW PAYMENT BUTTON -->
-                            <button onclick="buyNow(${p.id});" class="btn-buy-now">BUY NOW • PAY SECURELY</button>
-                        </div>
+                        <button onclick="addToCart(${p.id})" class="btn-nexus py-5 w-full">Add to Shopping Bag</button>
                     </div>
                 `;
             }
             renderReviews(p.reviews);
             showPage('product-details');
-        }
-
-        // NEW: Direct Buy Now → adds to cart + opens checkout (PayPal ready)
-        function buyNow(id) {
-            addToCart(id);
-            showPage('cart');
         }
 
         function renderReviews(reviews) {
@@ -396,6 +363,8 @@
         function renderCart() {
             const itemsDiv = document.getElementById('cart-items');
             const summaryDiv = document.getElementById('cart-summary');
+            const paymentContainer = document.getElementById('paypal-button-container');
+
             if (!itemsDiv || !summaryDiv) return;
 
             itemsDiv.innerHTML = cart.length ? cart.map(item => `
@@ -406,65 +375,50 @@
                     </div>
                     <div class="flex items-center gap-6">
                         <span class="text-sm font-light">R${item.price * item.quantity}</span>
-                        <button onclick="removeFromCart(${item.id}); event.stopImmediatePropagation()" class="text-red-600 hover:text-red-700 text-xs tracking-[0.5px] font-semibold uppercase">CANCEL</button>
+                        <button onclick="removeFromCart(${item.id}); event.stopImmediatePropagation()" 
+                                class="text-red-600 hover:text-red-700 text-xs tracking-[0.5px] font-semibold uppercase">CANCEL</button>
                     </div>
                 </div>
             `).join('') : '<p class="text-center py-20 opacity-50 text-lg">Your bag is empty.</p>';
-           
-            const subtotal = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
-            const shipping = subtotal > 2000 ? 0 : 150;
-            const total = subtotal + shipping;
+
+            const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
             summaryDiv.innerHTML = `
-                <div class="space-y-3 text-sm">
-                    <div class="flex justify-between">
-                        <span class="font-light">Subtotal</span>
-                        <span>R${subtotal}</span>
-                    </div>
-                    <div class="flex justify-between">
-                        <span class="font-light">Shipping</span>
-                        <span>${shipping === 0 ? 'FREE' : 'R' + shipping}</span>
-                    </div>
-                    <div class="flex justify-between border-t pt-3 font-semibold text-base">
-                        <span>Total</span>
-                        <span>R${total}</span>
-                    </div>
+                <div class="flex justify-between">
+                    <span class="text-lg font-light tracking-widest">SUBTOTAL</span>
+                    <span class="text-lg">R${total}</span>
                 </div>
             `;
 
-            // PayPal Button (re-renders cleanly)
-            const container = document.getElementById('paypal-button-container');
-            if (container) {
-                container.innerHTML = '';
+            if (paymentContainer) {
                 if (cart.length > 0) {
-                    paypal.Buttons({
-                        createOrder: function(data, actions) {
-                            return actions.order.create({
-                                purchase_units: [{
-                                    amount: {
-                                        value: total.toFixed(2),
-                                        currency_code: 'ZAR'
-                                    },
-                                    description: 'NEXUS Order #' + Date.now()
-                                }]
-                            });
-                        },
-                        onApprove: function(data, actions) {
-                            return actions.order.capture().then(function(details) {
-                                alert('✅ Payment successful! Thank you, ' + details.payer.name.given_name);
-                                cart = [];
-                                document.getElementById('cart-count').innerText = '0';
-                                renderCart();
-                                showPage('home');
-                            });
-                        },
-                        onError: function(err) {
-                            console.error(err);
-                            alert('Payment could not be completed. Please try again.');
-                        }
-                    }).render('#paypal-button-container');
+                    paymentContainer.innerHTML = `
+                        <button onclick="proceedToPayment()" 
+                                class="btn-nexus w-full py-5 text-sm tracking-widest">
+                            PROCEED TO SECURE PAYMENT
+                        </button>
+                        <p class="text-center text-[10px] mt-4 opacity-60">
+                            Total: R${total.toFixed(0)} • You'll enter this amount on PayPal
+                        </p>
+                    `;
+                } else {
+                    paymentContainer.innerHTML = '';
                 }
             }
+        }
+
+        function proceedToPayment() {
+            const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+            if (total <= 0) return;
+
+            // Redirect to your PayPal.me link
+            window.location.href = "https://paypal.me/NexusstoreZA";
+
+            // Optional: clear cart immediately after redirect (uncomment if desired)
+            // cart = [];
+            // document.getElementById('cart-count').innerText = 0;
+            // renderCart();
+            // showPage('home');
         }
 
         function toggleDarkMode() {
