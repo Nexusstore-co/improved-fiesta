@@ -181,7 +181,7 @@
         <div id="cart-items" class="space-y-6"></div>
         <div id="cart-summary" class="mt-10 pt-10 border-t"></div>
         <div id="checkout-section" class="mt-10" style="display: none;">
-            <h3 class="text-2xl font-light mb-6 text-center">Complete Your Order</h3>
+            <h3 class="text-2xl font-light mb-6 text-center">Checkout</h3>
             <div id="paypal-button-container" class="max-w-md mx-auto"></div>
         </div>
     </main>
@@ -196,84 +196,8 @@
         </div>
     </footer>
 
-    <script src="https://www.paypal.com/sdk/js?client-id=AfBGDHT9ED_6GH6JGn04jLrNFJQKUfo7ymSg6_xxVqjCAANQdPk-iuO5ubmbnjj-MYzqYc6LwPRyXezi&currency=ZAR"></script>
+    <script src="https://www.paypal.com/sdk/js?client-id=AfBGDHT9ED_6GH6JGn04jLrNFJQKUfo7ymSg6_xxVqjCAANQdPk-iuO5ubmbnjj-MYzqYc6LwPRyXezi=ZAR"></script>
 
-<script>
-    // ... [KEEP YOUR PRODUCTS ARRAY AND OTHER FUNCTIONS UNCHANGED] ...
-
-    function renderCart() {
-        const itemsDiv = document.getElementById('cart-items');
-        const summaryDiv = document.getElementById('cart-summary');
-        const checkoutSection = document.getElementById('checkout-section');
-        
-        if (!itemsDiv || !summaryDiv) return;
-
-        // 1. Render items in the list
-        itemsDiv.innerHTML = cart.length ? cart.map(item => `
-            <div class="flex justify-between items-center border-b pb-6">
-                <div>
-                    <h3 class="text-sm font-bold">${item.name}</h3>
-                    <p class="text-xs opacity-70">Qty: ${item.quantity}</p>
-                </div>
-                <div class="flex items-center gap-6">
-                    <span class="text-sm font-light">R${item.price * item.quantity}</span>
-                    <button onclick="removeFromCart(${item.id}); event.stopImmediatePropagation()" class="text-red-600 hover:text-red-700 text-xs tracking-[0.5px] font-semibold uppercase">CANCEL</button>
-                </div>
-            </div>
-        `).join('') : '<p class="text-center py-20 opacity-50 text-lg">Your bag is empty.</p>';
-       
-        const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
-        summaryDiv.innerHTML = `
-            <div class="flex justify-between">
-                <span class="text-lg font-light tracking-widest">SUBTOTAL</span>
-                <span class="text-lg">R${total}</span>
-            </div>
-        `;
-
-        // 2. Handle PayPal Button Rendering
-        const container = document.getElementById('paypal-button-container');
-        if (container) {
-            container.innerHTML = ''; // Clear old buttons to refresh the total
-            
-            if (cart.length > 0) {
-                checkoutSection.style.display = 'block';
-                
-                // SAFETY CHECK: Ensure PayPal is loaded before calling
-                if (typeof paypal !== 'undefined') {
-                    paypal.Buttons({
-                        createOrder: function(data, actions) {
-                            return actions.order.create({
-                                purchase_units: [{
-                                    amount: {
-                                        currency_code: 'ZAR',
-                                        value: total.toString() // Send the actual total
-                                    },
-                                    description: 'NEXUS Collective Order'
-                                }]
-                            });
-                        },
-                        onApprove: function(data, actions) {
-                            return actions.order.capture().then(function(details) {
-                                alert('Transaction completed by ' + details.payer.name.given_name);
-                                cart = []; // Clear cart
-                                document.getElementById('cart-count').innerText = 0;
-                                showPage('home');
-                            });
-                        },
-                        onError: function(err) {
-                            console.error('PayPal Error:', err);
-                            alert('PayPal did not load correctly. Please check your internet or Client ID.');
-                        }
-                    }).render('#paypal-button-container');
-                }
-            } else {
-                checkoutSection.style.display = 'none';
-            }
-        }
-    }
-
-    // ... [REST OF YOUR EXISTING CODE FOR DARK MODE, SEARCH, ETC.] ...
-</script>
     <script>
         const products = [ 
             { id: 1, name: 'Portable Car Hookah', price: 1360, originalPrice: 1850, category: 'Automotive', sales: 2100, image: 'https://www.ashishaonline.co.za/cdn/shop/products/109478526_3324191984298017_5697333573222117201_o_portable_shisha_2048x.jpg?v=1658918521', desc: 'Travel hookah designed for standard cup holders. Fits securely in most vehicle cup holders.', reviews: [] },
@@ -408,59 +332,73 @@
             renderCart();
         }
 
-        // DYNAMIC PAYPAL BUTTON RENDERER
-        function initPayPalButtons(total) {
-            const container = document.getElementById('paypal-button-container');
-            container.innerHTML = ''; // Clear existing buttons to refresh price
-            
-            paypal.Buttons({
-                createOrder: function(data, actions) {
-                    return actions.order.create({
-                        purchase_units: [{
-                            amount: {
-                                currency_code: 'ZAR',
-                                value: total.toString()
-                            },
-                            description: 'NEXUS Modern Lifestyle Order'
-                        }]
-                    });
-                },
-                onApprove: function(data, actions) {
-                    return actions.order.capture().then(function(details) {
-                        alert('Transaction completed by ' + details.payer.name.given_name + '!');
-                        cart = [];
-                        document.getElementById('cart-count').innerText = '0';
-                        showPage('home');
-                    });
-                },
-                onError: function(err) {
-                    console.error('PayPal error', err);
-                    alert('An error occurred with your payment.');
-                }
-            }).render('#paypal-button-container');
-        }
-
         function renderCart() {
             const itemsDiv = document.getElementById('cart-items');
             const summaryDiv = document.getElementById('cart-summary');
             const checkoutSection = document.getElementById('checkout-section');
+            
             if (!itemsDiv || !summaryDiv) return;
 
             itemsDiv.innerHTML = cart.length ? cart.map(item => `
                 <div class="flex justify-between items-center border-b pb-6">
-                    <div><h3 class="text-sm font-bold">${item.name}</h3><p class="text-xs opacity-70">Qty: ${item.quantity}</p></div>
-                    <div class="flex items-center gap-6"><span class="text-sm font-light">R${item.price * item.quantity}</span><button onclick="removeFromCart(${item.id})" class="text-red-600 text-xs">CANCEL</button></div>
+                    <div>
+                        <h3 class="text-sm font-bold">${item.name}</h3>
+                        <p class="text-xs opacity-70">Qty: ${item.quantity}</p>
+                    </div>
+                    <div class="flex items-center gap-6">
+                        <span class="text-sm font-light">R${item.price * item.quantity}</span>
+                        <button onclick="removeFromCart(${item.id}); event.stopImmediatePropagation()" class="text-red-600 hover:text-red-700 text-xs tracking-[0.5px] font-semibold uppercase">CANCEL</button>
+                    </div>
                 </div>
-            `).join('') : '<p class="text-center py-20 opacity-50">Your bag is empty.</p>';
+            `).join('') : '<p class="text-center py-20 opacity-50 text-lg">Your bag is empty.</p>';
            
             const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
-            summaryDiv.innerHTML = `<div class="flex justify-between"><span class="text-lg font-light tracking-widest">SUBTOTAL</span><span class="text-lg">R${total}</span></div>`;
+            summaryDiv.innerHTML = `
+                <div class="flex justify-between">
+                    <span class="text-lg font-light tracking-widest">SUBTOTAL</span>
+                    <span class="text-lg">R${total}</span>
+                </div>
+            `;
 
-            if (cart.length > 0) {
-                checkoutSection.style.display = 'block';
-                initPayPalButtons(total); // Re-initialize with the updated total
-            } else {
-                checkoutSection.style.display = 'none';
+            const container = document.getElementById('paypal-button-container');
+            if (container) {
+                container.innerHTML = ''; // Clear old buttons to refresh the total
+                
+                if (cart.length > 0) {
+                    checkoutSection.style.display = 'block';
+                    
+                    // Safety check to ensure PayPal SDK is loaded
+                    if (typeof paypal !== 'undefined') {
+                        paypal.Buttons({
+                            createOrder: function(data, actions) {
+                                return actions.order.create({
+                                    purchase_units: [{
+                                        amount: {
+                                            currency_code: 'ZAR',
+                                            value: total.toFixed(2) // Send actual cart total
+                                        },
+                                        description: 'NEXUS Collective Order'
+                                    }]
+                                });
+                            },
+                            onApprove: function(data, actions) {
+                                return actions.order.capture().then(function(details) {
+                                    alert('Transaction completed by ' + details.payer.name.given_name);
+                                    cart = []; // Clear bag after successful payment
+                                    document.getElementById('cart-count').innerText = 0;
+                                    renderCart();
+                                    showPage('home');
+                                });
+                            },
+                            onError: function(err) {
+                                console.error('PayPal Error:', err);
+                                alert('There was an error with the payment process.');
+                            }
+                        }).render('#paypal-button-container');
+                    }
+                } else {
+                    checkoutSection.style.display = 'none';
+                }
             }
         }
 
@@ -516,7 +454,7 @@
                     if(p.x < 0 || p.x > canvas.width) p.vx *= -1;
                     if(p.y < 0 || p.y > canvas.height) p.vy *= -1;
                     ctx.beginPath(); ctx.arc(p.x, p.y, 1, 0, Math.PI * 2);
-                    ctx.fillStyle = 'rgba(37,99,235,0.2)'; ctx.fill();
+                    ctx.fillStyle = 'rgba(37,99,235,0.3)'; ctx.fill();
                 });
                 requestAnimationFrame(animate);
             }
@@ -526,10 +464,14 @@
         document.addEventListener('DOMContentLoaded', () => {
             renderProducts();
             initTechAnimation();
-            setTimeout(showEmailModal, 2000);
             
-            document.getElementById('subscribe-form').addEventListener('submit', handleSubscribe);
-            document.getElementById('popup-subscribe-form').addEventListener('submit', handlePopupSubmit);
+            const subscribeForm = document.getElementById('subscribe-form');
+            if (subscribeForm) subscribeForm.addEventListener('submit', handleSubscribe);
+
+            const popupForm = document.getElementById('popup-subscribe-form');
+            if (popupForm) popupForm.addEventListener('submit', handlePopupSubmit);
+
+            setTimeout(showEmailModal, 1800);
         });
     </script>
 </body>
