@@ -13,37 +13,36 @@
         .page { display: none; }
         .active-page { display: block; animation: fadeIn 0.4s ease-out; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
-     
+    
         .glass { background: var(--glass); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); }
         .product-card { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); border: 1px solid var(--border); position: relative; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.08); background: var(--bg); }
         .product-card:hover { transform: translateY(-8px); box-shadow: 0 12px 30px rgba(0,0,0,0.12); }
-     
+    
         .search-input { transition: width 0.4s ease, border-color 0.3s; width: 100px; background: transparent; color: var(--text); border-bottom: 1px solid var(--border); }
         .search-input:focus { width: 150px; border-color: var(--accent); }
         @media (min-width: 768px) {
             .search-input { width: 140px; }
             .search-input:focus { width: 220px; }
         }
-     
+    
         .cat-btn.active { border-bottom: 2px solid var(--text); color: var(--text); font-weight: 600; }
-     
+    
         .btn-nexus { border: 1px solid var(--text); padding: 0.6rem 1.2rem; font-size: 10px; letter-spacing: 0.25em; transition: all 0.3s ease; text-transform: uppercase; font-weight: 600; border-radius: 4px; }
         .btn-nexus:hover { background: var(--text); color: var(--bg); }
-        .sale-badge { 
-            position: absolute; 
-            top: 12px; 
-            right: 12px; 
-            background: #ef4444; 
-            color: white; 
-            font-size: 9px; 
-            font-weight: 700; 
-            padding: 3px 9px; 
+        .sale-badge {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: #ef4444;
+            color: white;
+            font-size: 9px;
+            font-weight: 700;
+            padding: 3px 9px;
             border-radius: 9999px;
             z-index: 20;
             letter-spacing: 0.5px;
             box-shadow: 0 2px 6px rgba(239, 68, 68, 0.3);
         }
-
         /* Email Popup */
         #email-modal {
             position: fixed;
@@ -68,7 +67,6 @@
     </style>
 </head>
 <body id="body-tag" class="antialiased">
-
     <!-- EMAIL POPUP -->
     <div id="email-modal">
         <div class="popup-inner">
@@ -88,7 +86,6 @@
             <button onclick="closeEmailModal()" class="block mx-auto mt-6 text-xs tracking-widest opacity-60 hover:opacity-100">No thanks, maybe later</button>
         </div>
     </div>
-
     <!-- NAV -->
     <nav class="sticky top-0 z-50 glass p-4 shadow-sm">
         <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
@@ -113,7 +110,6 @@
             </div>
         </div>
     </nav>
-
     <!-- HOME -->
     <main id="home" class="page active-page">
         <section class="min-h-[70vh] flex flex-col justify-center items-center text-center px-6">
@@ -150,12 +146,10 @@
             </div>
         </section>
     </main>
-
     <!-- PRODUCTS -->
     <main id="products" class="page max-w-7xl mx-auto py-20 px-6">
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8" id="product-grid"></div>
     </main>
-
     <!-- PRODUCT DETAILS -->
     <main id="product-details" class="page max-w-6xl mx-auto py-24 px-6">
         <button onclick="showPage('products')" class="text-xs tracking-widest opacity-50 mb-10">← BACK TO SHOP</button>
@@ -177,22 +171,19 @@
             </form>
         </div>
     </main>
-
     <!-- WISHLIST -->
     <main id="wishlist" class="page max-w-7xl mx-auto py-24 px-6">
         <div id="wishlist-grid" class="grid grid-cols-1 md:grid-cols-4 gap-8"></div>
     </main>
-
     <!-- CART -->
     <main id="cart" class="page max-w-4xl mx-auto py-24 px-6">
         <div id="cart-items" class="space-y-6"></div>
         <div id="cart-summary" class="mt-10 pt-10 border-t"></div>
         <div id="checkout-section" class="mt-10">
-            <h3 class="text-2xl font-light mb-4">Checkout • Secure Payment</h3>
-            <div id="paypal-button-container" class="max-w-md mx-auto"></div>
+            <h3 class="text-2xl font-light mb-4">Checkout</h3>
+            <div id="paypal-button-container"></div>
         </div>
     </main>
-
     <!-- FOOTER -->
     <footer class="py-16 border-t border-var(--border) bg-var(--bg) text-var(--text) text-center">
         <div class="max-w-7xl mx-auto px-6">
@@ -203,12 +194,9 @@
             <p class="text-[9px] opacity-30 tracking-[0.3em]">© 2024 NEXUS COLLECTIVE. DESIGNED FOR THE FUTURE.</p>
         </div>
     </footer>
-
-    <!-- PayPal SDK -->
     <script src="https://www.paypal.com/sdk/js?client-id=AbVYkvOph4D0UpNlal1RHg8iy2gUFI2hCJpUaBVNJqBCq3HBOHoFdCO_z20neUJcrKBsjD1-VaUEuRBZ&currency=ZAR"></script>
-
     <script>
-        const products = [ 
+        const products = [
             { id: 1, name: 'Portable Car Hookah', price: 1360, originalPrice: 1850, category: 'Automotive', sales: 2100, image: 'https://www.ashishaonline.co.za/cdn/shop/products/109478526_3324191984298017_5697333573222117201_o_portable_shisha_2048x.jpg?v=1658918521', desc: 'Travel hookah designed for standard cup holders. Fits securely in most vehicle cup holders.', reviews: [] },
             { id: 2, name: 'Auto Soap Dispenser', price: 720, originalPrice: 950, category: 'Home', sales: 850, image: 'https://thefoschini.vtexassets.com/arquivos/ids/213899792-1200-1600?v=638901801086030000&width=1200&height=1600&aspect=true', desc: 'Touchless IR sensor dispenser. Experience hygienic handwashing.', reviews: [] },
             { id: 3, name: 'Dog Paw Cleaner', price: 560, category: 'Pets', sales: 100, image: 'https://www.makro.co.za/asset/rukmini/fccp/832/832/ng-fkpublic-ui-user-fbbe/pet-cleanser/x/w/x/10-box-1-131746-alanes-original-imahbc3ktpx4sfw5.jpeg?q=70', desc: 'Silicone brush for muddy paws. Keep your home clean easily.', reviews: [] },
@@ -229,7 +217,6 @@
             { id: 58, name: 'Mattress vacuum cleaner', price: 999, category: 'Tech', sales: 480, image: 'https://www.makro.co.za/asset/rukmini/fccp/832/832/ng-fkpublic-ui-user-fbbe/vacuum-cleaner/b/m/p/handheld-uv-mattress-vacuum-cleaner-generic-original-imahgfc4qbnezagr.jpeg?q=70', desc: 'V CLEANING: Features UV light technology combined with powerful suction to effectively clean mattresses, bedding, and fabric surfaces CORDLESS DESIGN: Convenient wireless operation with rechargeable battery for unrestricted cleaning mobility around your home VERSATILE USE: Suitable for multiple surfaces including beds, sofas, cushions, carpets, and other fabric furnishings EFFICIENT FILTRATION: Multi-stage filtration system helps capture dust, debris, and small particles from soft surfaces ERGONOMIC FEATURES: Lightweight construction with comfortable grip handle and easy-to-use controls for effortless operation.', reviews: [] },
             { id: 59, name: 'Signature Engraving Kit', price: 1699, category: 'Accessories', sales: 550, image: 'https://www.makro.co.za/asset/rukmini/fccp/832/832/ng-fkpublic-ui-user-fbbe/engraving-tool-set/l/o/b/0-1-box-1-wireless-electric-engraving-pen-flycross-1-original-imahjff3hyfvjhyr.jpeg?q=70', desc: 'Portable engraving kit for personalizing items with precision laser technology and easy-to-use design.', reviews: [] }
         ];
-
         let cart = [];
         let wishlist = [];
         let currentProductId = null;
@@ -296,7 +283,7 @@
             if (!p) return;
             const savings = getSavingsPercent(p);
             const isPromo = savings > 0;
-            
+           
             const detailsEl = document.getElementById('details-content');
             if (detailsEl) {
                 detailsEl.innerHTML = `
@@ -380,97 +367,70 @@
                     </div>
                 </div>
             `).join('') : '<p class="text-center py-20 opacity-50 text-lg">Your bag is empty.</p>';
-           
+          
             const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
             summaryDiv.innerHTML = `
                 <div class="flex justify-between">
                     <span class="text-lg font-light tracking-widest">SUBTOTAL</span>
                     <span class="text-lg">R${total}</span>
                 </div>
-                <div class="text-xs opacity-60 mt-1">VAT & shipping calculated at checkout</div>
             `;
 
-            // ====================== PAYPAL BUTTON (FINAL SECURE VERSION - INTEGRATED) ======================
             const container = document.getElementById('paypal-button-container');
             if (container) {
                 container.innerHTML = '';
-                
                 if (cart.length > 0) {
+                    // ====================== PAYPAL BUTTON (SECURE SUPABASE EDGE FUNCTION VERSION) ======================
+                    // Integrated from provided code. Amount is handled server-side in the Supabase Edge Function (currently hardcoded to $5).
+                    // Supabase auth/insert lines removed to prevent errors (no Supabase client initialized in this frontend).
                     paypal.Buttons({
-                        style: { 
-                            shape: 'rect', 
-                            color: 'gold', 
-                            layout: 'vertical',
-                            label: 'paypal'
-                        },
-                        createOrder: function(data, actions) {
-                            return fetch('https://shdublmpkqvinmsxqvmh.supabase.co/functions/v1/create-paypal-order', {
+                        style: { shape: 'rect', color: 'gold', layout: 'vertical' },
+                        createOrder: function() {
+                            return fetch('https://shdublmpkqvinmsxqvmh.supabase.co/functions/v2/create-paypal-order', {
                                 method: 'POST',
-                                headers: { 
-                                    'Content-Type': 'application/json'
-                                },
-                                body: JSON.stringify({
-                                    amount: total,
-                                    currency_code: 'ZAR',
-                                    description: `NEXUS Order - ${cart.length} items`
-                                })
+                                headers: { 'Content-Type': 'application/json' }
+                                // NO body needed — amount is hardcoded to $5 in the Edge Function
                             })
                             .then(res => {
-                                if (!res.ok) throw new Error('Failed to create PayPal order');
+                                if (!res.ok) throw new Error('Failed to create order');
                                 return res.json();
                             })
                             .then(order => order.id);
                         },
                         onApprove: function(data) {
-                            return fetch('https://shdublmpkqvinmsxqvmh.supabase.co/functions/v1/capture-paypal-order', {
+                            return fetch('https://shdublmpkqvinmsxqvmh.supabase.co/functions/v2/capture-paypal-order', {
                                 method: 'POST',
                                 headers: { 'Content-Type': 'application/json' },
                                 body: JSON.stringify({ orderID: data.orderID })
                             })
-                            .then(res => res.json())
+                            .then(res => {
+                                if (!res.ok) throw new Error('Failed to capture payment');
+                                return res.json();
+                            })
                             .then((orderData) => {
                                 if (orderData.status === "COMPLETED") {
-                                    alert('🎉 Payment successful! Thank you for shopping at NEXUS.');
-                                    
-                                    // Clear cart
+                                    alert('🎉 Payment successful! Thank you!');
                                     cart = [];
-                                    document.getElementById('cart-count').innerText = '0';
-                                    
-                                    // Optional: Supabase logging (uncomment when you add Supabase client to the page)
-                                    /*
-                                    try {
-                                        const { data: { user } } = await supabase.auth.getUser();
-                                        await supabase.from('payments').insert({
-                                            order_id: data.orderID,
-                                            user_id: user?.id,
-                                            amount: total,
-                                            status: 'completed',
-                                            created_at: new Date().toISOString()
-                                        });
-                                    } catch(e) {
-                                        console.log('Supabase logging skipped (not initialized):', e);
-                                    }
-                                    */
-                                    
+                                    document.getElementById('cart-count').innerText = 0;
                                     renderCart();
                                     showPage('home');
                                 } else {
-                                    alert('Payment completed but status is: ' + (orderData.status || 'Unknown'));
+                                    alert('Payment not completed. Status: ' + (orderData.status || 'unknown'));
                                 }
                             })
                             .catch(err => {
                                 console.error(err);
-                                alert('Payment confirmation failed. Please contact support if money was deducted.');
+                                alert('Payment failed. Please try again.');
                             });
                         },
                         onError: function(err) {
-                            console.error('PayPal Error:', err);
-                            alert('Payment could not be processed. Please try again.');
+                            console.error(err);
+                            alert('Payment error occurred. Please try again.');
                         }
                     }).render('#paypal-button-container');
+                    // ============================================================
                 }
             }
-            // ==================================================================================
         }
 
         function toggleDarkMode() {
@@ -519,7 +479,6 @@
             const name = document.getElementById('popup-name').value.trim();
             const email = document.getElementById('popup-email').value.trim();
             if (!email) return alert('Please enter your email address.');
-
             fetch('https://formspree.io/f/meelvpda', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -561,18 +520,14 @@
             animate();
         }
 
-        // Initialize everything
         document.addEventListener('DOMContentLoaded', () => {
             renderProducts();
             initTechAnimation();
-            
+           
             const subscribeForm = document.getElementById('subscribe-form');
             if (subscribeForm) subscribeForm.addEventListener('submit', handleSubscribe);
-
             const popupForm = document.getElementById('popup-subscribe-form');
             if (popupForm) popupForm.addEventListener('submit', handlePopupSubmit);
-
-            // Show popup after load
             setTimeout(showEmailModal, 1800);
         });
     </script>
