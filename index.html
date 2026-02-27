@@ -204,9 +204,9 @@
         </div>
     </footer>
 
-    <!-- PAYPAL HOSTED BUTTONS SDK (payment handled 100% by PayPal - nothing processed on your website) -->
+    <!-- PAYPAL SDK - Dynamic buttons (exact cart total) - Payment 100% handled by PayPal -->
     <script 
-      src="https://www.paypal.com/sdk/js?client-id=BAAOkIpuu7DP4hfE0V44yaZqgEh2jFpXzLFjJ0MmuXFHwfO1_PMejUKn74Nri53_hv1FUk_vslsvOltag0&components=hosted-buttons&disable-funding=venmo&currency=USD">
+      src="https://www.paypal.com/sdk/js?client-id=BAAOkIpuu7DP4hfE0V44yaZqgEh2jFpXzLFjJ0MmuXFHwfO1_PMejUKn74Nri53_hv1FUk_vslsvOltag0&disable-funding=venmo&currency=ZAR">
     </script>
 
     <script>
@@ -372,7 +372,7 @@
 
             if (!itemsDiv || !summaryDiv) return;
 
-            // Render cart items
+            // Render items
             itemsDiv.innerHTML = cart.length ? cart.map(item => `
                 <div class="flex justify-between items-center border-b pb-6">
                     <div>
@@ -387,7 +387,6 @@
                 </div>
             `).join('') : '<p class="text-center py-20 opacity-50 text-lg">Your bag is empty.</p>';
 
-            // Calculate total (shown for customer reference)
             const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
             summaryDiv.innerHTML = `
@@ -397,24 +396,37 @@
                 </div>
             `;
 
-            // === PAYPAL HOSTED BUTTON (payment 100% on PayPal - no processing on your site) ===
+            // === DYNAMIC PAYPAL BUTTON (uses exact cart total) ===
             if (paymentContainer) {
                 paymentContainer.innerHTML = '';
-                if (cart.length > 0) {
-                    const hostedDiv = document.createElement('div');
-                    hostedDiv.id = 'paypal-hosted-button-container';
-                    paymentContainer.appendChild(hostedDiv);
-
-                    // Small delay to ensure PayPal SDK is fully loaded
-                    setTimeout(() => {
-                        if (typeof paypal !== 'undefined' && paypal.HostedButtons) {
-                            paypal.HostedButtons({
-                                hostedButtonId: 'YOUR_HOSTED_BUTTON_ID_HERE'   // ←←← REPLACE THIS WITH YOUR ACTUAL ID FROM PAYPAL DASHBOARD
-                            }).render('#paypal-hosted-button-container');
-                        } else {
-                            paymentContainer.innerHTML = '<p class="text-xs text-red-500 text-center">PayPal not ready yet. Please refresh the page.</p>';
+                if (cart.length > 0 && typeof paypal !== 'undefined') {
+                    paypal.Buttons({
+                        createOrder: function(data, actions) {
+                            return actions.order.create({
+                                purchase_units: [{
+                                    amount: {
+                                        value: total.toFixed(2),
+                                        currency_code: 'ZAR'   // Matches your site prices
+                                    }
+                                }]
+                            });
+                        },
+                        onApprove: function(data, actions) {
+                            return actions.order.capture().then(function(details) {
+                                alert('✅ Payment successful! Thank you ' + details.payer.name.given_name);
+                                cart = [];
+                                document.getElementById('cart-count').innerText = 0;
+                                renderCart();
+                                showPage('home');
+                            });
+                        },
+                        onError: function(err) {
+                            console.error(err);
+                            alert('Payment failed. Please try again.');
                         }
-                    }, 800);
+                    }).render('#paypal-button-container');
+                } else if (cart.length > 0) {
+                    paymentContainer.innerHTML = `<p class="text-xs text-center opacity-50">Loading PayPal... refresh if button doesn't appear.</p>`;
                 }
             }
         }
