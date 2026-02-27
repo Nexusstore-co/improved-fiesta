@@ -69,7 +69,6 @@
 </head>
 <body id="body-tag" class="antialiased">
 
-    <!-- EMAIL POPUP -->
     <div id="email-modal">
         <div class="popup-inner">
             <button onclick="closeEmailModal()" class="absolute top-6 right-6 text-3xl leading-none opacity-60 hover:opacity-100 transition">×</button>
@@ -89,7 +88,6 @@
         </div>
     </div>
 
-    <!-- NAV -->
     <nav class="sticky top-0 z-50 glass p-4 shadow-sm">
         <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
             <div class="flex flex-col md:flex-row items-center gap-4 md:gap-6">
@@ -114,7 +112,6 @@
         </div>
     </nav>
 
-    <!-- HOME -->
     <main id="home" class="page active-page">
         <section class="min-h-[70vh] flex flex-col justify-center items-center text-center px-6">
             <div class="tech-animation-container">
@@ -151,12 +148,10 @@
         </section>
     </main>
 
-    <!-- PRODUCTS -->
     <main id="products" class="page max-w-7xl mx-auto py-20 px-6">
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8" id="product-grid"></div>
     </main>
 
-    <!-- PRODUCT DETAILS -->
     <main id="product-details" class="page max-w-6xl mx-auto py-24 px-6">
         <button onclick="showPage('products')" class="text-xs tracking-widest opacity-50 mb-10">← BACK TO SHOP</button>
         <div id="details-content" class="grid grid-cols-1 md:grid-cols-2 gap-16"></div>
@@ -178,22 +173,26 @@
         </div>
     </main>
 
-    <!-- WISHLIST -->
     <main id="wishlist" class="page max-w-7xl mx-auto py-24 px-6">
         <div id="wishlist-grid" class="grid grid-cols-1 md:grid-cols-4 gap-8"></div>
     </main>
 
-    <!-- CART -->
     <main id="cart" class="page max-w-4xl mx-auto py-24 px-6">
         <div id="cart-items" class="space-y-6"></div>
         <div id="cart-summary" class="mt-10 pt-10 border-t"></div>
         <div id="checkout-section" class="mt-10">
             <h3 class="text-2xl font-light mb-4">Checkout</h3>
+            
             <div id="paypal-button-container"></div>
+            
+            <div class="mt-8 pt-8 border-t border-gray-200 dark:border-gray-800">
+                <h4 class="text-lg font-light mb-4">Quick Pay / Specific Offer</h4>
+                <div id="paypal-container-BFFP8XUBR8GZ6"></div>
+            </div>
+
         </div>
     </main>
 
-    <!-- FOOTER -->
     <footer class="py-16 border-t border-var(--border) bg-var(--bg) text-var(--text) text-center">
         <div class="max-w-7xl mx-auto px-6">
             <h2 class="text-xl font-light tracking-[0.5em] mb-6">NEXUS</h2>
@@ -204,11 +203,12 @@
         </div>
     </footer>
 
-    <!-- INTEGRATED PAYPAL SDK (updated client-id + USD + standard buttons component for full compatibility) -->
-    <script src="https://www.paypal.com/sdk/js?client-id=BAAOkIpuu7DP4hfE0V44yaZqgEh2jFpXzLFjJ0MmuXFHwfO1_PMejUKn74Nri53_hv1FUk_vslsvOltag0&currency=USD&components=buttons&disable-funding=venmo"></script>
+    <script src="https://www.paypal.com/sdk/js?client-id=AbVYkvOph4D0UpNlal1RHg8iy2gUFI2hCJpUaBVNJqBCq3HBOHoFdCO_z20neUJcrKBsjD1-VaUEuRBZ&currency=ZAR"></script>
+
+    <script src="https://www.paypal.com/sdk/js?client-id=BAAOkIpuu7DP4hfE0V44yaZqgEh2jFpXzLFjJ0MmuXFHwfO1_PMejUKn74Nri53_hv1FUk_vslsvOltag0&components=hosted-buttons&disable-funding=venmo&currency=USD" data-namespace="paypalHosted"></script>
 
     <script>
-        const products = [ 
+        const products = [
             { id: 1, name: 'Portable Car Hookah', price: 1360, originalPrice: 1850, category: 'Automotive', sales: 2100, image: 'https://www.ashishaonline.co.za/cdn/shop/products/109478526_3324191984298017_5697333573222117201_o_portable_shisha_2048x.jpg?v=1658918521', desc: 'Travel hookah designed for standard cup holders. Fits securely in most vehicle cup holders.', reviews: [] },
             { id: 2, name: 'Auto Soap Dispenser', price: 720, originalPrice: 950, category: 'Home', sales: 850, image: 'https://thefoschini.vtexassets.com/arquivos/ids/213899792-1200-1600?v=638901801086030000&width=1200&height=1600&aspect=true', desc: 'Touchless IR sensor dispenser. Experience hygienic handwashing.', reviews: [] },
             { id: 3, name: 'Dog Paw Cleaner', price: 560, category: 'Pets', sales: 100, image: 'https://www.makro.co.za/asset/rukmini/fccp/832/832/ng-fkpublic-ui-user-fbbe/pet-cleanser/x/w/x/10-box-1-131746-alanes-original-imahbc3ktpx4sfw5.jpeg?q=70', desc: 'Silicone brush for muddy paws. Keep your home clean easily.', reviews: [] },
@@ -389,6 +389,7 @@
                 </div>
             `;
 
+            // Original dynamic cart checkout init
             const container = document.getElementById('paypal-button-container');
             if (container) {
                 container.innerHTML = '';
@@ -399,7 +400,7 @@
                                 purchase_units: [{
                                     amount: {
                                         value: total.toFixed(2),
-                                        currency_code: 'USD'   /* Updated to match new SDK */
+                                        currency_code: 'ZAR'
                                     },
                                     description: 'NEXUS Order'
                                 }]
@@ -516,7 +517,6 @@
             animate();
         }
 
-        // FIXED: Use DOMContentLoaded + safety checks
         document.addEventListener('DOMContentLoaded', () => {
             renderProducts();
             initTechAnimation();
@@ -529,6 +529,13 @@
 
             // Show popup after load
             setTimeout(showEmailModal, 1800);
+
+            // NEW: Initialize Hosted Button checkout (renders on load)
+            if (typeof paypalHosted !== 'undefined') {
+                paypalHosted.HostedButtons({
+                    hostedButtonId: "BFFP8XUBR8GZ6",
+                }).render("#paypal-container-BFFP8XUBR8GZ6");
+            }
         });
     </script>
 </body>
